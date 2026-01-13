@@ -8,6 +8,15 @@ import urllib.error
 import socket
 
 
+"""
+解码HTTP响应内容，支持gzip压缩和多种编码
+
+Args:
+    response: urllib.response对象
+    
+Returns:
+    str: 解码后的字符串内容
+"""
 def decode_response(response):
     """
     解码HTTP响应内容，支持gzip压缩和多种编码
@@ -19,7 +28,7 @@ def decode_response(response):
         str: 解码后的字符串内容
     """
     # 读取响应内容
-    content = response.read()
+    content = response.read()    #response.read()只能读取一次！
     
     # 检查是否gzip压缩
     if response.headers.get('Content-Encoding') == 'gzip':
@@ -37,7 +46,18 @@ def decode_response(response):
     # 如果所有编码都失败，返回原始字节
     return content
 
+"""
+安全的URL打开函数，包含异常处理
 
+Args:
+    url: 请求的URL
+    data: POST数据
+    timeout: 超时时间（秒）
+    **kwargs: 其他参数
+
+Returns:
+    tuple: (success, result_or_error)
+"""
 def safe_urlopen(url, data=None, timeout=10, **kwargs):
     """
     安全的URL打开函数，包含异常处理
